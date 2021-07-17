@@ -113,7 +113,7 @@ class RegularPizza(TemplateRegularPizza):
                 return self.Topping1SmallPrice
             elif self.no_of_toppings == 2:
                 return self.Topping2SmallPrice
-            elif self.no_of_toppings == 3:
+            elif self.no_of_toppings >= 3:
                 return self.Topping3SmallPrice
             else:
                 return self.SmallPrice
@@ -122,7 +122,7 @@ class RegularPizza(TemplateRegularPizza):
                 return self.Topping1LargePrice
             elif self.no_of_toppings == 2:
                 return self.Topping2LargePrice
-            elif self.no_of_toppings == 3:
+            elif self.no_of_toppings >= 3:
                 return self.Topping3LargePrice
             else:
                 return self.LargePrice
@@ -141,7 +141,7 @@ class SicilianPizza(TemplateSicilianPizza):
                 return self.Topping1SmallPrice
             elif self.no_of_toppings == 2:
                 return self.Topping2SmallPrice
-            elif self.no_of_toppings == 3:
+            elif self.no_of_toppings >= 3:
                 return self.Topping3SmallPrice
             else:
                 return self.SmallPrice
@@ -150,7 +150,7 @@ class SicilianPizza(TemplateSicilianPizza):
                 return self.Topping1LargePrice
             elif self.no_of_toppings == 2:
                 return self.Topping2LargePrice
-            elif self.no_of_toppings == 3:
+            elif self.no_of_toppings >= 3:
                 return self.Topping3LargePrice
             else:
                 return self.LargePrice

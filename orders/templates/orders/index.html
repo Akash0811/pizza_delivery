@@ -5,6 +5,7 @@
 <ul>
     <li>Currently logged in as: {{ user.username }}</li>
     <li>Order id: {{ order_id }}</li>
+    {% if regular_pizza|length != 0 %}
     <h3>Regular Pizza</h3>
       {% for item in regular_pizza %}
       <table>
@@ -21,6 +22,8 @@
           </tr>
       {% endfor %}
     </table>
+    {% endif %}
+    {% if sicilian_pizza|length != 0 %}
     <h3>Sicilian Pizza</h3>
       {% for item in sicilian_pizza %}
       <table>
@@ -37,6 +40,8 @@
           </tr>
       {% endfor %}
     </table>
+    {% endif %}
+    {% if sub|length != 0 %}
     <h3>Subs</h3>
       {% for item in sub %}
       <table>
@@ -55,24 +60,30 @@
 	  </td>
       {% endfor %}
      </table>
+     {% endif %}
+     {% if pasta|length != 0  %}
     <h3>Pasta</h3>
       {% for item in pasta %}
       <table>
           <tr>
 		  <td>  {{ item.name }} </td>
 		  <td>  {{ item.SmallPrice }} </td>
-          </tr>
-      </table>  
+          </tr>  
       {% endfor %}
+      </table>
+      {% endif %}
+      {% if salad|length != 0 %} 
     <h3>Salads</h3>
       {% for item in salad %}
       <table>
           <tr>
 		  <td>  {{ item.name }} </td>
 		  <td>  {{ item.SmallPrice }} </td>
-          </tr>
-      </table>  
+          </tr> 
       {% endfor %}
+      </table>
+      {% endif %}
+      {% if dinner_platter|length != 0 %}
     <h3>Dinner Platter</h3>
       {% for item in dinner_platter %}
       <table>
@@ -82,9 +93,11 @@
 		  {% else %} <td> Small </td>
 		  {% endif %}
 		  <td>  {{ item.price}} </td>
-          </tr>
-      </table>  
+          </tr> 
       {% endfor %}
+      </table>
+      {% endif %}
+
     <h3>Total: {{ total }}</h3>
     {% if total != 0.0 %}
       <h2><a href="{% url 'view' order_id %}">Confirm Order</a></h2>
