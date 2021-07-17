@@ -7,41 +7,85 @@
       <li>ID of customer: {{ order.user.username }}</li>
       <li>Order id: {{ order.id }}</li>
       <h3>Regular Pizza</h3>
-        {% for item in order.regular_dish.all %}
-            <li>
-                Regular {{ item.name }}
-            </li>
-        {% endfor %}
-      <h3>Sicilian Pizza</h3>
-        {% for item in order.sicilian_dish.all %}
-            <li>
-                Sicilian {{ item.name}}
-            </li>
-        {% endfor %}
-      <h3>Subs</h3>
-        {% for item in order.subs0_dish.all %}
-            <li>
-                {{ item.name }}
-            </li>
-        {% endfor %}
-      <h3>Pasta</h3>
-        {% for item in order.pasta_dish.all %}
-            <li>
-                {{ item.name }}
-            </li>
-        {% endfor %}
-      <h3>Salads</h3>
-        {% for item in order.salad_dish.all %}
-            <li>
-                {{ item.name }}
-            </li>
-        {% endfor %}
-      <h3>Dinner Platter</h3>
-        {% for item in order.din_dish.all %}
-            <li>
-                {{ item.name }}
-            </li>
-        {% endfor %}
+      {% for item in order.regular_dish.all %}
+      <table>
+          <tr>
+		  <td> Regular {{ item.name }} </td>
+		  {% if  item.size %} <td> Large </td>
+		  {% else %} <td> Small </td>
+		  {% endif %}
+		  <td> {% for elem in item.toppings.all %} 
+			  <li> {{ elem.name }} </li>
+		       {% endfor %}
+		  </td>
+		  <td> {{ item.price }} </td> 
+          </tr>
+      {% endfor %}
+    </table>
+    <h3>Sicilian Pizza</h3>
+      {% for item in order.sicilian_dish.all %}
+      <table>
+          <tr>
+		  <td> Sicilian {{ item.name }} </td>
+		  {% if  item.size %} <td> Large </td>
+		  {% else %} <td> Small </td>
+		  {% endif %}
+		  <td> {% for elem in item.toppings.all %} 
+			  <li> {{ elem.name }} </li>
+		       {% endfor %}
+		  </td>
+		  <td> {{ item.price }} </td> 
+          </tr>
+      {% endfor %}
+    </table>
+    <h3>Subs</h3>
+      {% for item in order.subs0_dish.all %}
+      <table>
+	  <tr>
+          <td>
+              {{ item.name }}
+          </td>
+		  {% if  item.size %} <td> Large </td>
+		  {% else %} <td> Small </td>
+		  {% endif %}
+		  {% if item.Xcheese %} <td> Extra Cheese </td>
+		  {% else %} <td> No Cheese </td>
+		  {% endif %}
+	  <td>
+	      {{ item.price }}
+	  </td>
+      {% endfor %}
+     </table>
+    <h3>Pasta</h3>
+      {% for item in order.pasta_dish.all %}
+      <table>
+          <tr>
+		  <td>  {{ item.name }} </td>
+		  <td>  {{ item.SmallPrice }} </td>
+          </tr>
+      </table>  
+      {% endfor %}
+    <h3>Salads</h3>
+      {% for item in order.salad_dish.all %}
+      <table>
+          <tr>
+		  <td>  {{ item.name }} </td>
+		  <td>  {{ item.SmallPrice }} </td>
+          </tr>
+      </table>  
+      {% endfor %}
+    <h3>Dinner Platter</h3>
+      {% for item in order.dinnerplatter_dish.all %}
+      <table>
+          <tr>
+		  <td>  {{ item.name }} </td>
+		  {% if  item.size %} <td> Large </td>
+		  {% else %} <td> Small </td>
+		  {% endif %}
+		  <td>  {{ item.price}} </td>
+          </tr>
+      </table>  
+      {% endfor %}
       <h3>Total: {{ order.price }}</h3>
   </ul>
 {% endfor %}
