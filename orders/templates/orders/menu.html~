@@ -63,8 +63,8 @@
       {% for item in DinnerPlatter %}
       <tr> 
 	      <td> {{ item.name }} </td>
-	      <td> <a href="{% url 'rest' order_id=order_id type_id=3 dish_id=item.id  %}"> Small </a> {{item.SmallPrice}} </td>
-	      <td> <a href="{% url 'rest' order_id=order_id type_id=4 dish_id=item.id  %}"> Large </a> {{item.LargePrice}} </td>
+	      <td> <a href="{% url 'rest' order_id=order_id type_id=3 dish_id=item.id  %}"> Small </a> </td>
+	      <td> <a href="{% url 'rest' order_id=order_id type_id=4 dish_id=item.id  %}"> Large </a> </td>
       </tr>
       {% endfor %}
       </table>
