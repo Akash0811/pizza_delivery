@@ -4,37 +4,49 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Order(models.Model):
+    """A new order for the user"""
+    id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey( User , on_delete=models.CASCADE )
     price = models.FloatField( default = 0.0 )
     buy = models.BooleanField( default = False)
     time = now()
 
-class NonSizableDish(models.Model):
+class TemplateNonSizableDish(models.Model):
+    """ A dish that has no size """
     name = models.CharField(max_length=64)
-    #orders = models.ManyToManyField(Order, blank=True, related_name="dish")
     SmallPrice = models.FloatField(null=True, blank=True, default=None)
 
     def __str__(self):
         return f"{self.name} - {self.SmallPrice}"
 
-class Topping(models.Model):
+    class Meta:
+        abstract = True
+
+class TemplateTopping(models.Model):
+    """ A Topping to be added on the dish """
     name = models.CharField(max_length=64)
 
     def __str__(self):
         return f"{self.name}"
+    
+    class Meta:
+        abstract = True
 
-class SizableDish(NonSizableDish):
+class TemplateSizableDish(TemplateNonSizableDish):
+    """ A dish that has a size """
     LargePrice = models.FloatField(null=True, blank=True, default=None)
-    size = models.BooleanField(default = False)
 
     def __str__(self):
         return f"{self.name} - Small:{self.SmallPrice} - Large:{self.LargePrice}"
+
+    class Meta:
+        abstract = True
 
 '''templates contain pice of items to be shown on menu
 Admin can change prices dynamically
 Required because cannot have same database for templates and orders'''
 
-class TemplateRegularPizza(SizableDish):
+class TemplateRegularPizza(TemplateSizableDish):
     Topping1SmallPrice = models.FloatField(null=True, blank=True, default=None)
     Topping2SmallPrice = models.FloatField(null=True, blank=True, default=None)
     Topping3SmallPrice = models.FloatField(null=True, blank=True, default=None)
@@ -42,7 +54,10 @@ class TemplateRegularPizza(SizableDish):
     Topping2LargePrice = models.FloatField(null=True, blank=True, default=None)
     Topping3LargePrice = models.FloatField(null=True, blank=True, default=None)
 
-class TemplateSicilianPizza(SizableDish):
+    class Meta:
+        abstract = True
+
+class TemplateSicilianPizza(TemplateSizableDish):
     Topping1SmallPrice = models.FloatField(null=True, blank=True, default=None)
     Topping2SmallPrice = models.FloatField(null=True, blank=True, default=None)
     Topping3SmallPrice = models.FloatField(null=True, blank=True, default=None)
@@ -50,27 +65,46 @@ class TemplateSicilianPizza(SizableDish):
     Topping2LargePrice = models.FloatField(null=True, blank=True, default=None)
     Topping3LargePrice = models.FloatField(null=True, blank=True, default=None)
 
-class TemplateSub(SizableDish):
+    class Meta:
+        abstract = True
+
+class TemplateSub(TemplateSizableDish):
     XCheesePrice = models.FloatField(null=True, blank=True, default=0.50)
 
     def __str__(self):
         return f"{self.name} - Small:{self.SmallPrice} - Large:{self.LargePrice} - ExtraCheese:{self.XCheesePrice}"
 
-class TemplateDinnerPlatter(SizableDish):
+    class Meta:
+        abstract = True
+
+class TemplateDPS(TemplateSizableDish):
+    def price(self):
+        return self.SmallPrice
+
+    class Meta:
+        abstract = True
+
     pass
 
-class TemplatePasta(NonSizableDish):
+class TemplatePS(TemplateNonSizableDish):
+    class Meta:
+        abstract = True
     pass
 
-class TemplateSalad(NonSizableDish):
-    pass
 
 '''Real orders are passed and hence these are linked to attributes and orders databases
 This is displayed on cart , not on menu
 '''
+
+class Topping(TemplateTopping):
+    id = models.BigAutoField(primary_key=True)
+    pass
+
 class RegularPizza(TemplateRegularPizza):
-    orders = models.ManyToManyField(Order, null = True , blank=True, related_name="regular_dish")
-    #toppings = models.ManyToManyField(Topping, null = True , blank=True, related_name="reg_dish")
+    id = models.BigAutoField(primary_key=True)
+    size = models.BooleanField(default = False)
+    orders = models.ManyToManyField(Order, blank=True, related_name="regular_dish")
+    toppings = models.ManyToManyField(Topping, blank=True, related_name="regular_dish")
     no_of_toppings = models.IntegerField( default = 0 )
 
     def price(self):
@@ -95,8 +129,10 @@ class RegularPizza(TemplateRegularPizza):
 
 
 class SicilianPizza(TemplateSicilianPizza):
-    orders = models.ManyToManyField(Order, null = True , blank=True, related_name="sicilian_dish")
-    #toppings = models.ManyToManyField(Topping, blank=True, related_name="sic_dish")
+    id = models.BigAutoField(primary_key=True)
+    orders = models.ManyToManyField(Order, blank=True, related_name="sicilian_dish")
+    size = models.BooleanField(default = False)
+    toppings = models.ManyToManyField(Topping, blank=True, related_name="sicilian_dish")
     no_of_toppings = models.IntegerField( default = 0 )
 
     def price(self):
@@ -120,7 +156,9 @@ class SicilianPizza(TemplateSicilianPizza):
                 return self.LargePrice
 
 class Sub(TemplateSub):
-    orders = models.ManyToManyField(Order, null = True , blank=True, related_name="subs0_dish")
+    id = models.BigAutoField(primary_key=True)
+    size = models.BooleanField(default = False)
+    orders = models.ManyToManyField(Order, blank=True, related_name="subs0_dish")
     Xcheese = models.BooleanField(default = False)
 
     def __str__(self):
@@ -138,20 +176,54 @@ class Sub(TemplateSub):
             else:
                 return self.LargePrice + self.XCheesePrice
 
-class DinnerPlatter(TemplateDinnerPlatter):
-    orders = models.ManyToManyField(Order, null = True , blank=True, related_name="din_dish")
+class DinnerPlatter(TemplateDPS):
+    id = models.BigAutoField(primary_key=True)
+    size = models.BooleanField(default = False)
+    orders = models.ManyToManyField(Order, blank=True, related_name="dinnerplatter_dish")
+    pass
+    
+class Pasta(TemplatePS):
+    id = models.BigAutoField(primary_key=True)
+    orders = models.ManyToManyField(Order, blank=True, related_name="pasta_dish")
+    pass
 
-    def price(self):
-        return self.SmallPrice
+class Salad(TemplatePS):
+    id = models.BigAutoField(primary_key=True)
+    orders = models.ManyToManyField(Order, blank=True, related_name="salad_dish")
+    pass
 
-class Pasta(TemplatePasta):
-    orders = models.ManyToManyField(Order, null = True , blank=True, related_name="pasta_dish")
+class DisplayRegularPizza(TemplateRegularPizza):
+    '''Display of Regular Pizzas on Menu'''
+    id = models.BigAutoField(primary_key=True)
+    pass
 
-    def price(self):
-        return self.SmallPrice
+class DisplaySicilianPizza(TemplateSicilianPizza):
+    '''Display of Sicilian Pizzas on Menu'''
+    id = models.BigAutoField(primary_key=True)
+    pass
 
-class Salad(TemplateSalad):
-    orders = models.ManyToManyField(Order, null = True , blank=True, related_name="salad_dish")
+class DisplaySub(TemplateSub):
+    '''Display of Subs on Menu'''
+    id = models.BigAutoField(primary_key=True)
+    pass
 
-    def price(self):
-        return self.SmallPrice
+class DisplayDinnerPlatter(TemplateDPS):
+    '''Display of Dinner Platter on Menu'''
+    id = models.BigAutoField(primary_key=True)
+    pass
+
+class DisplayPasta(TemplateDPS):
+    '''Display of Pasta on Menu''' 
+    id = models.BigAutoField(primary_key=True)
+    pass
+
+class DisplaySalad(TemplateDPS):
+    '''Display of Salad on Menu'''
+    id = models.BigAutoField(primary_key=True)
+    pass
+
+class DisplayTopping(TemplateTopping):
+    '''Display of Salad on Menu'''
+    id = models.BigAutoField(primary_key=True)
+    pass
+

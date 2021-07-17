@@ -6,8 +6,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
 from .models import Order , RegularPizza , SicilianPizza , Sub , DinnerPlatter , Pasta , Salad , Topping ,\
-                    TemplateRegularPizza , TemplateSicilianPizza , TemplateSub , TemplateDinnerPlatter , TemplatePasta , TemplateSalad,\
-                    SizableDish , NonSizableDish
+        DisplayRegularPizza , DisplaySicilianPizza , DisplaySub , DisplayDinnerPlatter , DisplayPasta , DisplaySalad, DisplayTopping
 
 # adds item to cart
 def index(request , order_id):
@@ -21,7 +20,7 @@ def index(request , order_id):
         "sub": order.subs0_dish.all(),
         "pasta": order.pasta_dish.all(),
         "salad": order.salad_dish.all(),
-        "dinner_platter": order.din_dish.all(),
+        "dinner_platter": order.dinnerplatter_dish.all(),
         "total": float("{0:.2f}".format(order.price))
     }
     return render( request , "orders/index.html" , content  )
@@ -34,12 +33,12 @@ def menu(request , order_id):
     context = {
         "user": request.user,
         "order_id": order.id,
-        "RegularPizza": TemplateRegularPizza.objects.all()[:2],
-        "SicilianPizza": TemplateSicilianPizza.objects.all()[:2],
-        "Sub": TemplateSub.objects.all()[:18],
-        "Pasta": TemplatePasta.objects.all()[:3],
-        "Salad": TemplateSalad.objects.all()[:4],
-        "DinnerPlatter": TemplateDinnerPlatter.objects.all()[:6]
+        "RegularPizza": DisplayRegularPizza.objects.all(),
+        "SicilianPizza": DisplaySicilianPizza.objects.all(),
+        "Sub": DisplaySub.objects.all(),
+        "Pasta": DisplayPasta.objects.all(),
+        "Salad": DisplaySalad.objects.all(),
+        "DinnerPlatter": DisplayDinnerPlatter.objects.all()
     }
     return render(request, "orders/menu.html", context)
 
@@ -105,11 +104,11 @@ def regular_pizza(request , dish_id , order_id ):
         context = {
             "order_id": order_id,
             "dish_id": dish_id,
-            "Topping": Topping.objects.all()
+            "Topping": DisplayTopping.objects.all()
         }
         return render( request , "orders/regular_pizza.html" , context)
     size = request.POST["size"]
-    template = TemplateRegularPizza.objects.get( pk = dish_id )
+    template = DisplayRegularPizza.objects.get( pk = dish_id )
     pizza = RegularPizza.objects.create( name = template.name ,
                                         SmallPrice = template.SmallPrice,
                                         LargePrice = template.LargePrice,
@@ -120,20 +119,28 @@ def regular_pizza(request , dish_id , order_id ):
                                         Topping2LargePrice = template.Topping2LargePrice,
                                         Topping3LargePrice = template.Topping3LargePrice)
     count = 0
-    for topping in Topping.objects.all():
+    for topping in DisplayTopping.objects.all():
         #print(request.POST[topping.name])
         if request.POST[topping.name] == 'Yes':
+            topping = Topping.objects.create( name = topping.name)
+            pizza.toppings.add(topping)
             count += 1
     pizza.no_of_toppings = count
     pizza.orders.add(order)
     if size == "Small":
-        order.price += pizza.price()
+        if pizza.price() == None:
+            order.price += template.SmallPrice
+        else:
+            order.price += pizza.price()
         pizza.save()
         order.save()
         return HttpResponseRedirect(reverse("menu", args=(order_id,)))
     else:
         pizza.size = True
-        order.price += pizza.price()
+        if pizza.price() == None:
+            order.price += template.LargePrice
+        else:
+            order.price += pizza.price()
         pizza.save()
         order.save()
         return HttpResponseRedirect(reverse("menu", args=(order_id,)))
@@ -145,11 +152,11 @@ def sicilian_pizza(request , dish_id , order_id ):
         context = {
             "order_id": order_id,
             "dish_id": dish_id,
-            "Topping": Topping.objects.all()
+            "Topping": DisplayTopping.objects.all()
         }
         return render( request , "orders/sicilian_pizza.html" , context)
     size = request.POST["size"]
-    template = TemplateSicilianPizza.objects.get( pk = dish_id )
+    template = DisplaySicilianPizza.objects.get( pk = dish_id )
     pizza = SicilianPizza.objects.create( name = template.name ,
                                         SmallPrice = template.SmallPrice,
                                         LargePrice = template.LargePrice,
@@ -160,20 +167,28 @@ def sicilian_pizza(request , dish_id , order_id ):
                                         Topping2LargePrice = template.Topping2LargePrice,
                                         Topping3LargePrice = template.Topping3LargePrice)
     count = 0
-    for topping in Topping.objects.all():
+    for topping in DisplayTopping.objects.all():
         #print(request.POST[topping.name])
         if request.POST[topping.name] == 'Yes':
+            topping = Topping.objects.create( name = topping.name)
+            pizza.toppings.add(topping)
             count += 1
     pizza.no_of_toppings = count
     pizza.orders.add(order)
     if size == "Small":
-        order.price += pizza.price()
+        if pizza.price() == None:
+            order.price += template.SmallPrice
+        else:
+            order.price += pizza.price()
         pizza.save()
         order.save()
         return HttpResponseRedirect(reverse("menu", args=(order_id,)))
     else:
         pizza.size = True
-        order.price += pizza.price()
+        if pizza.price() == None:
+            order.price += template.LargePrice
+        else:
+            order.price += pizza.price()
         pizza.save()
         order.save()
         return HttpResponseRedirect(reverse("menu", args=(order_id,)))
@@ -189,7 +204,7 @@ def sub(request , dish_id , order_id ):
         return render( request , "orders/sub.html" , context)
     size = request.POST["size"]
     Xcheese = request.POST["Xcheese"]
-    template = TemplateSub.objects.get( pk = dish_id )
+    template = DisplaySub.objects.get( pk = dish_id )
     sub = Sub.objects.create( name = template.name,
                             SmallPrice = template.SmallPrice,
                             LargePrice = template.LargePrice,
@@ -220,25 +235,25 @@ def rest(request , type_id , dish_id , order_id ):
         }
         return render( request , "orders/rest.html" , context)
     if type_id ==1:
-        template = TemplatePasta.objects.get( pk = dish_id )
+        template = DisplayPasta.objects.get( pk = dish_id )
         pasta = Pasta.objects.create( name = template.name,
                                     SmallPrice = template.SmallPrice)
         pasta.orders.add(order)
-        order.price += pasta.price()
+        order.price += pasta.SmallPrice
         pasta.save()
         order.save()
         return HttpResponseRedirect(reverse("menu", args=(order_id,)))
     elif type_id ==2:
-        template = TemplateSalad.objects.get( pk = dish_id )
+        template = DisplaySalad.objects.get( pk = dish_id )
         salad = Salad.objects.create( name = template.name ,
                                     SmallPrice = template.SmallPrice)
         salad.orders.add(order)
-        order.price += salad.price()
+        order.price += salad.SmallPrice
         salad.save()
         order.save()
         return HttpResponseRedirect(reverse("menu", args=(order_id,)))
     elif type_id == 3:
-        template = TemplateDinnerPlatter.objects.get( pk = dish_id )
+        template = DisplayDinnerPlatter.objects.get( pk = dish_id )
         dinner = DinnerPlatter.objects.create( name = template.name,
                                                 SmallPrice = template.SmallPrice,
                                                 LargePrice = template.LargePrice)
@@ -248,7 +263,7 @@ def rest(request , type_id , dish_id , order_id ):
         order.save()
         return HttpResponseRedirect(reverse("menu", args=(order_id,)))
     else:
-        template = TemplateDinnerPlatter.objects.get( pk = dish_id )
+        template = DisplayDinnerPlatter.objects.get( pk = dish_id )
         dinner = DinnerPlatter.objects.create( name = template.name,
                                                 SmallPrice = template.SmallPrice,
                                                 LargePrice = template.LargePrice)
