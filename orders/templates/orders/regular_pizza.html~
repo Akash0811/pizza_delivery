@@ -13,8 +13,8 @@
         <h2> Toppings </h2>
 	<table>
         {% for item in Topping %}
-		<tr> <input type='hidden' name="{{ item }}" value='No'> 
-			<input type="checkbox" name="{{ item }}" value='Yes'> {{ item }}</tr>
+	<tr><td> <input type='hidden' name="{{ item }}" value='No'> 
+			<input type="checkbox" name="{{ item }}" value='Yes'> {{ item }}</td></tr>
         {% endfor %}
 	</table>
         <input type="submit" value="Add"/>

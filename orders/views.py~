@@ -113,7 +113,8 @@ def regular_pizza(request , dish_id , order_id ):
         context = {
             "order_id": order_id,
             "dish_id": dish_id,
-            "Topping": DisplayTopping.objects.all()
+            "Topping": DisplayTopping.objects.all(),
+            "message": "Please enter Size --  Small/Large"
         }
         return render( request , "orders/regular_pizza.html" , context)
 
@@ -170,7 +171,8 @@ def sicilian_pizza(request , dish_id , order_id ):
         context = {
             "order_id": order_id,
             "dish_id": dish_id,
-            "Topping": DisplayTopping.objects.all()
+            "Topping": DisplayTopping.objects.all(),
+            "message": "Please enter Size --  Small/Large"
         }
         return render( request , "orders/sicilian_pizza.html" , context)
     template = DisplaySicilianPizza.objects.get( pk = dish_id )
@@ -216,7 +218,7 @@ def sub(request , dish_id , order_id ):
     if request.method == 'GET':
         context = {
             "order_id": order_id,
-            "dish_id": dish_id,
+            "dish_id": dish_id
         }
         return render( request , "orders/sub.html" , context)
     try:
@@ -225,6 +227,7 @@ def sub(request , dish_id , order_id ):
         context = {
             "order_id": order_id,
             "dish_id": dish_id,
+            "message": "Please enter Size --  Small/Large"
         }
         return render( request , "orders/sub.html" , context)
     Xcheese = request.POST["Xcheese"]
@@ -237,12 +240,26 @@ def sub(request , dish_id , order_id ):
     if Xcheese == "Yes":
         sub.Xcheese = True
     if size == "Small":
+        if sub.price() == None:
+            context = {
+                "order_id": order_id,
+                "dish_id": dish_id,
+                "message":"Small Size NOT Available"
+            }
+            return render( request , "orders/sub.html" , context)
         order.price += sub.price()
         sub.save()
         order.save()
         return HttpResponseRedirect(reverse("menu", args=(order_id,)))
     else:
         sub.size = True
+        if sub.price() == None:
+            context = {
+                "order_id": order_id,
+                "dish_id": dish_id,
+                "message":"Large Size NOT Available"
+            }
+            return render( request , "orders/sub.html" , context)
         order.price += sub.price()
         sub.save()
         order.save()

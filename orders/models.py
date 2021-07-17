@@ -110,20 +110,32 @@ class RegularPizza(TemplateRegularPizza):
     def price(self):
         if self.size == False:
             if self.no_of_toppings == 1:
-                return self.Topping1SmallPrice
+                if self.Topping1SmallPrice != None:
+                    return self.Topping1SmallPrice
+                return self.SmallPrice
             elif self.no_of_toppings == 2:
-                return self.Topping2SmallPrice
+                if self.Topping2SmallPrice != None:
+                    return self.Topping2SmallPrice
+                return self.SmallPrice
             elif self.no_of_toppings >= 3:
-                return self.Topping3SmallPrice
+                if self.Topping3SmallPrice != None:
+                    return self.Topping3SmallPrice
+                return self.SmallPrice
             else:
                 return self.SmallPrice
         else:
             if self.no_of_toppings == 1:
-                return self.Topping1LargePrice
+                if self.Topping1LargePrice != None:
+                    return self.Topping1LargePrice
+                return self.LargePrice
             elif self.no_of_toppings == 2:
-                return self.Topping2LargePrice
+                if self.Topping2LargePrice != None:
+                    return self.Topping2LargePrice
+                return self.LargePrice
             elif self.no_of_toppings >= 3:
-                return self.Topping3LargePrice
+                if self.Topping3LargePrice != None:
+                    return self.Topping3LargePrice
+                return self.LargePrice
             else:
                 return self.LargePrice
 
@@ -138,20 +150,32 @@ class SicilianPizza(TemplateSicilianPizza):
     def price(self):
         if self.size == False:
             if self.no_of_toppings == 1:
-                return self.Topping1SmallPrice
+                if self.Topping1SmallPrice != None:
+                    return self.Topping1SmallPrice
+                return self.SmallPrice
             elif self.no_of_toppings == 2:
-                return self.Topping2SmallPrice
+                if self.Topping2SmallPrice != None:
+                    return self.Topping2SmallPrice
+                return self.SmallPrice
             elif self.no_of_toppings >= 3:
-                return self.Topping3SmallPrice
+                if self.Topping3SmallPrice != None:
+                    return self.Topping3SmallPrice
+                return self.SmallPrice
             else:
                 return self.SmallPrice
         else:
             if self.no_of_toppings == 1:
-                return self.Topping1LargePrice
+                if self.Topping1LargePrice != None:
+                    return self.Topping1LargePrice
+                return self.LargePrice
             elif self.no_of_toppings == 2:
-                return self.Topping2LargePrice
+                if self.Topping2LargePrice != None:
+                    return self.Topping2LargePrice
+                return self.LargePrice
             elif self.no_of_toppings >= 3:
-                return self.Topping3LargePrice
+                if self.Topping3LargePrice != None:
+                    return self.Topping3LargePrice
+                return self.LargePrice
             else:
                 return self.LargePrice
 

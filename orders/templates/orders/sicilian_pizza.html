@@ -1,6 +1,9 @@
 {% extends "orders/base.html" %}
 
 {% block body %}
+{% if message %}
+<p> {{ message }} </p>
+{% endif %}
 <ul>
     <h3>Sicilian Pizza</h3>
     <form action="{% url 'sicilian_pizza' order_id=order_id dish_id=dish_id %}" method="post">
