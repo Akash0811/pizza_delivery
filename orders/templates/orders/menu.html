@@ -53,7 +53,7 @@
     <table>
       {% for item in Salad %}
       <tr>
-	      <td> <a href="{% url 'rest' order_id=order_id type_id=1 dish_id=item.id %}"> {{ item.name }} </a> </td>
+	      <td> <a href="{% url 'rest' order_id=order_id type_id=2 dish_id=item.id %}"> {{ item.name }} </a> </td>
 	      <td> {{ item.SmallPrice }} </td>
       <tr>
       {% endfor %}
