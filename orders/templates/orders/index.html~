@@ -1,0 +1,109 @@
+{% extends "orders/base.html" %}
+
+{% block body %}
+<h1>Hello, {{ user.first_name }}</h1>
+<ul>
+    <li>Currently logged in as: {{ user.username }}</li>
+    <li>Order id: {{ order_id }}</li>
+    {% if regular_pizza|length != 0 %}
+    <h3>Regular Pizza</h3>
+      {% for item in regular_pizza %}
+      <table>
+          <tr>
+		  <td> Regular {{ item.name }} </td>
+		  {% if  item.size %} <td> Large </td>
+		  {% else %} <td> Small </td>
+		  {% endif %}
+		  <td> {% for elem in item.toppings.all %} 
+			  <li> {{ elem.name }} </li>
+		       {% endfor %}
+		  </td>
+		  <td> {{ item.price }} </td> 
+          </tr>
+      {% endfor %}
+    </table>
+    {% endif %}
+    {% if sicilian_pizza|length != 0 %}
+    <h3>Sicilian Pizza</h3>
+      {% for item in sicilian_pizza %}
+      <table>
+          <tr>
+		  <td> Sicilian {{ item.name }} </td>
+		  {% if  item.size %} <td> Large </td>
+		  {% else %} <td> Small </td>
+		  {% endif %}
+		  <td> {% for elem in item.toppings.all %} 
+			  <li> {{ elem.name }} </li>
+		       {% endfor %}
+		  </td>
+		  <td> {{ item.price }} </td> 
+          </tr>
+      {% endfor %}
+    </table>
+    {% endif %}
+    {% if sub|length != 0 %}
+    <h3>Subs</h3>
+      {% for item in sub %}
+      <table>
+	  <tr>
+          <td>
+              {{ item.name }}
+          </td>
+		  {% if  item.size %} <td> Large </td>
+		  {% else %} <td> Small </td>
+		  {% endif %}
+		  {% if item.Xcheese %} <td> Extra Cheese </td>
+		  {% else %} <td> No Cheese </td>
+		  {% endif %}
+	  <td>
+	      {{ item.price }}
+	  </td>
+      {% endfor %}
+     </table>
+     {% endif %}
+     {% if pasta|length != 0  %}
+    <h3>Pasta</h3>
+      {% for item in pasta %}
+      <table>
+          <tr>
+		  <td>  {{ item.name }} </td>
+		  <td>  {{ item.SmallPrice }} </td>
+          </tr>  
+      {% endfor %}
+      </table>
+      {% endif %}
+      {% if salad|length != 0 %} 
+    <h3>Salads</h3>
+      {% for item in salad %}
+      <table>
+          <tr>
+		  <td>  {{ item.name }} </td>
+		  <td>  {{ item.SmallPrice }} </td>
+          </tr> 
+      {% endfor %}
+      </table>
+      {% endif %}
+      {% if dinner_platter|length != 0 %}
+    <h3>Dinner Platter</h3>
+      {% for item in dinner_platter %}
+      <table>
+          <tr>
+		  <td>  {{ item.name }} </td>
+		  {% if  item.size %} <td> Large </td>
+		  {% else %} <td> Small </td>
+		  {% endif %}
+		  <td>  {{ item.price}} </td>
+          </tr> 
+      {% endfor %}
+      </table>
+      {% endif %}
+
+    <h3>Total: {{ total }}</h3>
+    {% if total != 0.0 %}
+      <h2><a href="{% url 'view' order_id %}">Confirm Order</a></h2>
+    {% endif %}
+    <h3>---------------------<h3>
+    <li><a href="{% url 'menu' order_id %}">Menu</a></li>
+    <li><a href="{% url 'logout' %}">Logout</a></li>
+</ul>
+{% endblock %}
