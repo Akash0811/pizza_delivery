@@ -3,6 +3,10 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Ignoring Backup files
+*~
+*.un~
+
 # C extensions
 *.so
 
