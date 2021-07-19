@@ -25,6 +25,18 @@ def index(request , order_id):
     }
     return render( request , "orders/index.html" , content  )
 
+# Menu in Login Page
+def loginmenu(request):
+    context = {
+        "RegularPizza": DisplayRegularPizza.objects.all(),
+        "SicilianPizza": DisplaySicilianPizza.objects.all(),
+        "Sub": DisplaySub.objects.all(),
+        "Pasta": DisplayPasta.objects.all(),
+        "Salad": DisplaySalad.objects.all(),
+        "DinnerPlatter": DisplayDinnerPlatter.objects.all()
+    }
+    return render(request, "orders/loginmenu.html", context)
+
 # Create your views here.
 def menu(request , order_id):
     if not request.user.is_authenticated:

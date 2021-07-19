@@ -1,6 +1,6 @@
 {% extends "orders/base.html" %}
 
-{% block body %}
+{% block content %}
 <h2> Pinochhio's Pizza </h2>
 <h1>Login</h1>
 {% if message %}
@@ -14,5 +14,4 @@
     <input name="password" type="password"/>
     <input type="submit" value="Login"/>
 </form>
-<p> <a href="{% url 'register' %}">   Register   </a></p>
 {% endblock %}

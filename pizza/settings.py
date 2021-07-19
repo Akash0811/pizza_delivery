@@ -33,6 +33,10 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     # My app    
     'orders.apps.OrdersConfig',
+
+    # Third Party Apps
+    'bootstrap4',
+
     # Default Django Apps
     'django.contrib.admin',
     'django.contrib.auth',

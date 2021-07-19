@@ -1,12 +1,49 @@
-<!DOCTYPE html>
-{% load static %}
-<html>
-    <head>
-        <title>Pinnochio's Pizza</title>
-	<link href="{% static 'orders/minimal-table.css'%}" rel="stylesheet" type="text/css">
-    </head>
+{% load bootstrap4 %}
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1,
+shrink-to-fit=no">
+<title>Pinnochio's Pizza</title>
+
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+</head>
     <body>
-        {% block body %}
-        {% endblock %}
-    </body>
+	    <nav class="navbar navbar-expand-md navbar-light bg-light mb-4 border">
+{% if user.is_authenticated %}		    
+<a class="navbar-brand" href="{% url 'login' %}"> Pinnochio's Menu </a>
+{% else %}
+<a class="navbar-brand" href="{% url 'loginmenu'%}"> Pinnochio's Menu </a>
+{% endif %}
+<button class="navbar-toggler" type="button" data-toggle="collapse"
+data-target="#navbarCollapse" aria-controls="navbarCollapse"
+aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"></span></button>
+<ul class="navbar-nav ml-auto">
+{% if user.is_authenticated %}
+<li class="nav-item">
+<span class="navbar-text"}">Hello, {{ user.username }}.</span>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="{% url 'logout' %}">Log out</a>
+</li>
+{% else %}
+<li class="nav-item">
+<a class="nav-link" href="{% url 'register' %}">Register</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="{% url 'login' %}">Log in</a></li>
+{% endif %}
+</ul>
+</div>
+</nav>
+<main role="main" class="container">
+</div>
+<div>
+{% block content %}{% endblock content %}
+</div>
+</main>
+</body>
 </html>

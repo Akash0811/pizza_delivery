@@ -5,6 +5,7 @@ from orders import views
 urlpatterns = [
     path("<int:order_id>/index", views.index, name="index"),
     path("login", views.login_view, name="login"),
+    path("loginmenu", views.loginmenu, name="loginmenu"),
     path("register", views.register, name="register"),
     path("logout", views.logout_view, name="logout"),
     path("<int:order_id>/menu", views.menu, name="menu"),
