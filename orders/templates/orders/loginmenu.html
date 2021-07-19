@@ -1,15 +1,13 @@
+
 {% extends "orders/base.html" %}
 
 {% block content %}
-<h1>Hello, {{ user.first_name }}</h1>
 <ul>
-    <li>Currently logged in as: {{ user.username }}</li>
-    <li>Order id: {{ order_id }}</li>
     <h3>Regular Pizza</h3>
     <table>
       {% for item in RegularPizza %}
       <tr>
-	      <td> <a href="{% url 'regular_pizza' order_id=order_id dish_id=item.id %}" > {{ item.name }} </a> </td>
+	      <td>  {{ item.name }}  </td>
 	      <td> Small {{ item.SmallPrice }} </td>
 	      <td> Large {{ item.LargePrice }} </td>
       </tr>
@@ -19,7 +17,7 @@
     <table>
       {% for item in SicilianPizza %}
       <tr>
-	      <td> <a href="{% url 'sicilian_pizza' order_id=order_id dish_id=item.id %}" > {{ item.name }} </a> </td>
+	      <td>  {{ item.name }}  </td>
 	      <td> Small {{ item.SmallPrice }} </td>
 	      <td> Large {{ item.LargePrice }} </td>
       </tr>
@@ -30,7 +28,7 @@
     <table>
       {% for item in Sub %}
       <tr>
-	      <td> <a href="{% url 'sub' order_id=order_id dish_id=item.id %}" > {{ item.name }} </a> </td>
+	      <td>  {{ item.name }}  </td>
 	      {% if item.SmallPrice != None %}
 	      <td> Small {{ item.SmallPrice }} </td>
 	      {% endif %}
@@ -44,7 +42,7 @@
     <table>
       {% for item in Pasta %}
       <tr>
-	      <td> <a href="{% url 'rest' order_id=order_id type_id=1 dish_id=item.id %}"> {{ item.name }} </a> </td>
+	      <td>  {{ item.name }} </td>
 	      <td> {{ item.SmallPrice }} </td>
       <tr>
       {% endfor %}
@@ -53,7 +51,7 @@
     <table>
       {% for item in Salad %}
       <tr>
-	      <td> <a href="{% url 'rest' order_id=order_id type_id=2 dish_id=item.id %}"> {{ item.name }} </a> </td>
+	      <td>  {{ item.name }}  </td>
 	      <td> {{ item.SmallPrice }} </td>
       <tr>
       {% endfor %}
@@ -63,14 +61,11 @@
       {% for item in DinnerPlatter %}
       <tr> 
 	      <td> {{ item.name }} </td>
-	      <td> <a href="{% url 'rest' order_id=order_id type_id=3 dish_id=item.id  %}"> Small </a> {{item.SmallPrice}} </td>
-	      <td> <a href="{% url 'rest' order_id=order_id type_id=4 dish_id=item.id  %}"> Large </a> {{item.LargePrice}} </td>
+	      <td>  Small  {{item.SmallPrice}} </td>
+	      <td>  Large  {{item.LargePrice}} </td>
       </tr>
       {% endfor %}
       </table>
 
-    <h3>---------------------<h3>
-    <li><a href="{% url 'index' order_id %}"> Cart/Index </a></li>
-    <li><a href="{% url 'logout' %}"> Logout </a></li>
 </ul>
 {% endblock %}

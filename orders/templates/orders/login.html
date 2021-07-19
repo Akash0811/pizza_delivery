@@ -1,7 +1,18 @@
 {% extends "orders/base.html" %}
+{% block page_header %}
 
+<div class="jumbotron">
+
+<h1 class="display-3">Delicious Pizzas, Pastas and More in 30 Minutes.</h1>
+
+<p class="lead">Enjoy mouth-watering from Pizzas from Pinnochio's. Made with appetizing flavors from Sicily, make your day wholesome with them. Luscious Subs, Pastas, Salads and Dinner Platters are also on menu. </p>
+<p> </p>
+<p>Dont have an <b>Account</b></p>
+<a class="btn btn-lg btn-primary" href="{% url 'register' %}"
+role="button">Register Here &raquo;</a>
+</div>
+{% endblock page_header %}
 {% block content %}
-<h2> Pinochhio's Pizza </h2>
 <h1>Login</h1>
 {% if message %}
     <div>

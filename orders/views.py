@@ -27,6 +27,16 @@ def index(request , order_id):
 
 # Menu in Login Page
 def loginmenu(request):
+    if request.user.is_authenticated:
+        order = Order.objects.filter( user = request.user ).last()
+        if not order:
+            order = Order.objects.create( user = request.user )
+            return menu(request, order.id)
+        elif order.buy:
+            order = Order.objects.create( user = request.user )
+            return menu(request, order.id) 
+        else:
+            return menu(request, order.id) 
     context = {
         "RegularPizza": DisplayRegularPizza.objects.all(),
         "SicilianPizza": DisplaySicilianPizza.objects.all(),
