@@ -8,10 +8,14 @@ from django.contrib.auth.decorators import login_required
 from .models import Order , RegularPizza , SicilianPizza , Sub , DinnerPlatter , Pasta , Salad , Topping ,\
         DisplayRegularPizza , DisplaySicilianPizza , DisplaySub , DisplayDinnerPlatter , DisplayPasta , DisplaySalad, DisplayTopping
 
+# Welcome Page for Web App
+def welcome(request):
+    return render(request, "orders/login.html")
+
 # adds item to cart
 def index(request , order_id):
     if not request.user.is_authenticated:
-        return render(request, "orders/login.html", {"message": None})
+        return render(request, "orders/logininsert.html", {"message": "Please Login"})
     order = Order.objects.get(pk = order_id)
     content = {
         "order_id": order.id,
@@ -50,7 +54,7 @@ def loginmenu(request):
 # Create your views here.
 def menu(request , order_id):
     if not request.user.is_authenticated:
-        return render(request, "orders/login.html", {"message": None})
+        return render(request, "orders/logininsert.html", {"message":"Please Login"})
     order = Order.objects.get(pk = order_id)
     context = {
         "user": request.user,
@@ -67,7 +71,7 @@ def menu(request , order_id):
 # Confirm order
 def view(request , order_id):
     if not request.user.is_authenticated:
-        return render(request, "orders/login.html", {"message": None})
+        return render(request, "orders/logininsert.html", {"message": "Please Login"})
     order = Order.objects.get(pk = order_id)
     order.buy = True
     #confirmed = Confirmed_Order( order = order )
@@ -79,7 +83,7 @@ def view(request , order_id):
 # Creates new objects
 def login_view(request):
     if request.method == 'GET':
-        return render(request, "orders/login.html")
+        return render(request, "orders/logininsert.html") 
     username = request.POST["username"]
     password = request.POST["password"]
     user = authenticate(request, username=username, password=password)
@@ -92,7 +96,7 @@ def login_view(request):
             order = Order.objects.create( user = request.user )
         return HttpResponseRedirect(reverse("index", args=(order.id,)))
     else:
-        return render(request, "orders/login.html", {"message": "Invalid credentials."})
+        return render(request, "orders/logininsert.html", {"message": "Invalid credentials."})
 
 def register(request):
     logout(request)
@@ -112,7 +116,7 @@ def register(request):
     user.last_name = last_name
     user.save()
     if user is not None:
-        return render(request, "orders/login.html", {"message": None})
+        return render(request, "orders/logininsert.html", {"message": "Please Login"})
     else:
         return render(request, "orders/register.html", {"message": "Please fill Entire Form"})
 
