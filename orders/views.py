@@ -82,8 +82,11 @@ def view(request , order_id):
 
 # Creates new objects
 def login_view(request):
-    if request.method == 'GET':
+    if request.method == 'GET' and not request.user.is_authenticated:
         return render(request, "orders/logininsert.html") 
+    elif request.method == 'GET':
+        order = Order.objects.filter( user = request.user ).last()
+        return index(request, order.id) 
     username = request.POST["username"]
     password = request.POST["password"]
     user = authenticate(request, username=username, password=password)
@@ -92,9 +95,14 @@ def login_view(request):
         order = Order.objects.filter( user = request.user ).last()
         if not order:
             order = Order.objects.create( user = request.user )
+            return menu(request , order.id)
         elif order.buy:
             order = Order.objects.create( user = request.user )
-        return HttpResponseRedirect(reverse("index", args=(order.id,)))
+            return menu(request , order.id)
+        elif not order.price > 0:
+            return menu(request , order.id)
+        else:
+            return HttpResponseRedirect(reverse("index", args=(order.id,)))
     else:
         return render(request, "orders/logininsert.html", {"message": "Invalid credentials."})
 

@@ -1,20 +1,60 @@
 {% extends "orders/base.html" %}
 
-{% block body %}
-<h1>Register</h1>
+{% load bootstrap4 %}
+{% block page_header %}
+<h2>Register</h2>
+{% endblock page_header %}
+{% block content %}
 {% if message %}
     <div>
+      <div class="alert alert-danger" role="alert">
         {{ message }}
     </div>
 {% endif %}
 <form action="{% url 'register' %}" method="post">
     {% csrf_token %}
-    <input name="username" placeholder="Username" type="text"/><br>
-    <input name="password" placeholder="Password" type="password"/><br>
-    <input name="confirm_password" placeholder="ConfirmPassword" type="password"/><br>
-    <input name="email" placeholder="Email" type="email"/><br>
-    <input name="first_name" placeholder="FirstName" type="text"/><br>
-    <input name="last_name" placeholder="LastName" type="text"/><br>
-    <input type="submit" value="Register"/>
+<div class="form-group row">
+    <label for="inputText" class="col-sm-2 col-form-label">Username</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control"  name = "username" id="inputText" placeholder="Username" >
+    </div>
+</div>
+  <div class="form-group row">
+    <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
+    <div class="col-sm-10">
+      <input type="password" class="form-control" name="password" id="inputPassword" placeholder="Password">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="inputPassword" class="col-sm-2 col-form-label">Confirm Password</label>
+    <div class="col-sm-10">
+      <input type="password" class="form-control" name="confirm_password"
+      id="inputPassword" placeholder="ConfirmPassword">
+    </div>
+  </div>
+<div class="form-group row">
+    <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+    <div class="col-sm-10">
+      <input type="email" class="form-control"  name = "email" id="inputEmail"
+      placeholder="Email" >
+    </div>
+</div>
+<div class="form-group row">
+    <label for="inputText" class="col-sm-2 col-form-label">First Name</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control"  name = "first_name"
+      id="inputText" placeholder="FirstName" >
+    </div>
+</div>
+<div class="form-group row">
+    <label for="inputText" class="col-sm-2 col-form-label">Last Name</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control"  name = "last_name"
+      id="inputText" placeholder="LastName" >
+    </div>
+</div>
+{% buttons %}
+<button name="submit" class="btn btn-primary" value="Register">Register</button>
+{% endbuttons %}
 </form>
 {% endblock %}
