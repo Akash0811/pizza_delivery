@@ -1,95 +1,104 @@
 {% extends "orders/base.html" %}
 
-{% block body %}
+{% load bootstrap4 %}
+{% block content %}
+<div class = "container">
+  <style>
+ .row > div {
+    margin-top:10px;
+    padding: 20px;
+    outline: 2px solid #ccc;
+    outline-offset: -10px;
+    -moz-outline-radius: 10px;
+    -webkit-outline-radius: 10px;
+ }
+</style>
 {% for order in orders %}
   <h1>-------------------------------------------</h1>
-  <ul>
-      <li>ID of customer: {{ order.user.username }}</li>
-      <li>Order id: {{ order.id }}</li>
+      <p>ID of customer: {{ order.user.username }}</p>
+      <p>Order id: {{ order.id }}</p>
       <h3>Regular Pizza</h3>
       {% for item in order.regular_dish.all %}
-      <table>
-          <tr>
-		  <td> Regular {{ item.name }} </td>
-		  {% if  item.size %} <td> Large </td>
-		  {% else %} <td> Small </td>
+      
+          <div class = "row">
+		  <div class="col-md-3"> Regular {{ item.name }} </div>
+		  {% if  item.size %} <div class="col-md-3"> Large </div>
+		  {% else %} <div class="col-md-3"> Small </div>
 		  {% endif %}
-		  <td> {% for elem in item.toppings.all %} 
+		  <div class="col-md-3"> {% for elem in item.toppings.all %} 
 			  <li> {{ elem.name }} </li>
 		       {% endfor %}
-		  </td>
-		  <td> {{ item.price }} </td> 
-          </tr>
+		  </div>
+		  <div class="col-md-3"> {{ item.price }} </div> 
+          </div>
       {% endfor %}
-    </table>
+    
     <h3>Sicilian Pizza</h3>
       {% for item in order.sicilian_dish.all %}
-      <table>
-          <tr>
-		  <td> Sicilian {{ item.name }} </td>
-		  {% if  item.size %} <td> Large </td>
-		  {% else %} <td> Small </td>
+      
+          <div class = "row">
+		  <div class="col-md-3"> Sicilian {{ item.name }} </div>
+		  {% if  item.size %} <div class="col-md-3"> Large </div>
+		  {% else %} <div class="col-md-3"> Small </div>
 		  {% endif %}
-		  <td> {% for elem in item.toppings.all %} 
+		  <div class="col-md-3"> {% for elem in item.toppings.all %} 
 			  <li> {{ elem.name }} </li>
 		       {% endfor %}
-		  </td>
-		  <td> {{ item.price }} </td> 
-          </tr>
+		  </div>
+		  <div class="col-md-3"> {{ item.price }} </div> 
+          </div>
       {% endfor %}
-    </table>
+    
     <h3>Subs</h3>
       {% for item in order.subs0_dish.all %}
-      <table>
-	  <tr>
-          <td>
+      
+	  <div class = "row">
+          <div class="col-md-3">
               {{ item.name }}
-          </td>
-		  {% if  item.size %} <td> Large </td>
-		  {% else %} <td> Small </td>
+          </div>
+		  {% if  item.size %} <div class="col-md-3"> Large </div>
+		  {% else %} <div class="col-md-3"> Small </div>
 		  {% endif %}
-		  {% if item.Xcheese %} <td> Extra Cheese </td>
-		  {% else %} <td> No Cheese </td>
+		  {% if item.Xcheese %} <div class="col-md-3"> Extra Cheese </div>
+		  {% else %} <div class="col-md-3"> No Cheese </div>
 		  {% endif %}
-	  <td>
+	  <div class="col-md-3">
 	      {{ item.price }}
-	  </td>
+	  </div>
+    </div>
       {% endfor %}
-     </table>
+     
     <h3>Pasta</h3>
       {% for item in order.pasta_dish.all %}
-      <table>
-          <tr>
-		  <td>  {{ item.name }} </td>
-		  <td>  {{ item.SmallPrice }} </td>
-          </tr>
-      </table>  
+      
+          <div class = "row">
+		  <div class="col-md-3">  {{ item.name }} </div>
+		  <div class="col-md-3">  {{ item.SmallPrice }} </div>
+          </div>
+        
       {% endfor %}
     <h3>Salads</h3>
       {% for item in order.salad_dish.all %}
-      <table>
-          <tr>
-		  <td>  {{ item.name }} </td>
-		  <td>  {{ item.SmallPrice }} </td>
-          </tr>
-      </table>  
+      
+          <div class = "row">
+		  <div class="col-md-3">  {{ item.name }} </div>
+		  <div class="col-md-3">  {{ item.SmallPrice }} </div>
+          </div>
+        
       {% endfor %}
     <h3>Dinner Platter</h3>
       {% for item in order.dinnerplatter_dish.all %}
-      <table>
-          <tr>
-		  <td>  {{ item.name }} </td>
-		  {% if  item.size %} <td> Large </td>
-		  {% else %} <td> Small </td>
+      
+          <div class = "row">
+		  <div class="col-md-3">  {{ item.name }} </div>
+		  {% if  item.size %} <div class="col-md-3"> Large </div>
+		  {% else %} <div class="col-md-3"> Small </div>
 		  {% endif %}
-		  <td>  {{ item.price}} </td>
-          </tr>
-      </table>  
+		  <div class="col-md-3">  {{ item.price}} </div>
+          </div>
+        
       {% endfor %}
       <h3>Total: {{ order.price }}</h3>
-  </ul>
 {% endfor %}
-<h3>---------------------<h3>
-<li><a href="{% url 'logout' %}">Logout</a></li>
 
 {% endblock %}

@@ -12,3 +12,12 @@
 role="button">Register Here &raquo;</a>
 </div>
 {% endblock page_header %}
+{% block content %}
+{% if message %}
+    <div>
+      <div class="alert alert-success" role="alert">
+        {{ message }}
+    </div>
+{% endif %}
+{% endblock %}
+
