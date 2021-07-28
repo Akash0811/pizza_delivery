@@ -1,21 +1,31 @@
 {% extends "orders/base.html" %}
 
-{% block body %}
+{% load bootstrap4 %}
+{% block content %}
+<div class = "container">
+  <style>
+ .row > div {
+    margin-top:10px;
+    padding: 20px;
+    outline: 2px solid #ccc;
+    outline-offset: -10px;
+    -moz-outline-radius: 10px;
+    -webkit-outline-radius: 10px;
+ }
+</style>
 {% if message %}
-<p> {{ message }} </p>
+      <div class="alert alert-danger" role="alert">
+        {{ message }}
+    </div>
 {% endif %}
-<ul>
     <h3>Sub</h3>
     <form action="{% url 'sub' order_id=order_id dish_id=dish_id %}" method="post">
         {% csrf_token %}
-	<table>
-		<tr> <td><input type="radio" name="size" value="Small"> Small</td>
-			<td><input type="radio" name="size" value="Large"> Large</td></tr>
-		<tr><td><input type='hidden' name="Xcheese" value='No'>
-			<input type="checkbox" name="Xcheese" value="Yes">ExtraCheese</td></tr>
-	</table>
+	
+		<div class="row"> <div class="col-md-4"><input type="radio" name="size" value="Small"> Small</div>
+			<div class="col-md-4"><input type="radio" name="size" value="Large"> Large</div></div>
+		<div class="row"><div class="col-md-4"><input type='hidden' name="Xcheese" value='No'>
+			<input type="checkbox" name="Xcheese" value="Yes">ExtraCheese</div></div>
         <input type="submit" value="Add"/>
     </form>
-    <li>  Go Back  <a href="{% url 'index' order_id %}">  Index/Cart  </a></li>
-</ul>
 {% endblock %}
