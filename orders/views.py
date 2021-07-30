@@ -10,7 +10,7 @@ from .models import Order , RegularPizza , SicilianPizza , Sub , DinnerPlatter ,
 
 
 import smtplib,os
-from .datum import Datum
+# from .datum import Datum
 
 def email(receive,name,price):
 
