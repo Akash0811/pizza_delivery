@@ -21,15 +21,18 @@
       {% for item in regular_pizza %}
       
           <div class = "row">
-		  <div class="col-md-3"> Regular {{ item.name }} </div>
-		  {% if  item.size %} <div class="col-md-3"> Large </div>
-		  {% else %} <div class="col-md-3"> Small </div>
+		  <div class="col-md-2"> Regular {{ item.name }} </div>
+		  {% if  item.size %} <div class="col-md-2"> Large </div>
+		  {% else %} <div class="col-md-2"> Small </div>
 		  {% endif %}
-		  <div class="col-md-3"> {% for elem in item.toppings.all %} 
+		  <div class="col-md-2"> {% for elem in item.toppings.all %} 
 			  <li> {{ elem.name }} </li>
 		       {% endfor %}
 		  </div>
-		  <div class="col-md-3"> {{ item.price }} </div> 
+		  <div class="col-md-2"> {{ item.price }} </div> 
+      <div class="col-md-2"> <a href="{% url 'remove' order_id item.id 1 %}">
+          remove
+        </a></div> 
           </div>
       {% endfor %}
     
@@ -39,15 +42,18 @@
       {% for item in sicilian_pizza %}
       
           <div class = "row">
-		  <div class="col-md-3"> Sicilian {{ item.name }} </div>
-		  {% if  item.size %} <div class="col-md-3"> Large </div>
-		  {% else %} <div class="col-md-3"> Small </div>
+		  <div class="col-md-2"> Sicilian {{ item.name }} </div>
+		  {% if  item.size %} <div class="col-md-2"> Large </div>
+		  {% else %} <div class="col-md-2"> Small </div>
 		  {% endif %}
-		  <div class="col-md-3"> {% for elem in item.toppings.all %} 
+		  <div class="col-md-2"> {% for elem in item.toppings.all %} 
 			  <li> {{ elem.name }} </li>
 		       {% endfor %}
 		  </div>
-		  <div class="col-md-3"> {{ item.price }} </div> 
+		  <div class="col-md-2"> {{ item.price }} </div> 
+      <div class="col-md-2"> <a href="{% url 'remove' order_id item.id 2 %}">
+          remove
+        </a></div> 
           </div>
       {% endfor %}
     
@@ -57,18 +63,21 @@
       {% for item in sub %}
       
 	  <div class = "row">
-          <div class="col-md-3">
+          <div class="col-md-2">
               {{ item.name }}
           </div>
-		  {% if  item.size %} <div class="col-md-3"> Large </div>
-		  {% else %} <div class="col-md-3"> Small </div>
+		  {% if  item.size %} <div class="col-md-2"> Large </div>
+		  {% else %} <div class="col-md-2"> Small </div>
 		  {% endif %}
-		  {% if item.Xcheese %} <div class="col-md-3"> Extra Cheese </div>
-		  {% else %} <div class="col-md-3"> No Cheese </div>
+		  {% if item.Xcheese %} <div class="col-md-2"> Extra Cheese </div>
+		  {% else %} <div class="col-md-2"> No Cheese </div>
 		  {% endif %}
-	  <div class="col-md-3">
+	  <div class="col-md-2">
 	      {{ item.price }}
 	  </div>
+      <div class="col-md-2"> <a href="{% url 'remove' order_id item.id 3 %}">
+          remove
+        </a></div> 
 		</div>
       {% endfor %}
      
@@ -78,8 +87,11 @@
       {% for item in pasta %}
       
           <div class = "row">
-		  <div class="col-md-3">  {{ item.name }} </div>
-		  <div class="col-md-3">  {{ item.SmallPrice }} </div>
+		  <div class="col-md-2">  {{ item.name }} </div>
+		  <div class="col-md-2">  {{ item.SmallPrice }} </div>
+      <div class="col-md-2"> <a href="{% url 'remove' order_id item.id 4 %}">
+          remove
+        </a></div> 
           </div>  
       {% endfor %}
       
@@ -89,8 +101,11 @@
       {% for item in salad %}
       
           <div class = "row">
-		  <div class="col-md-3">  {{ item.name }} </div>
-		  <div class="col-md-3">  {{ item.SmallPrice }} </div>
+		  <div class="col-md-2">  {{ item.name }} </div>
+		  <div class="col-md-2">  {{ item.SmallPrice }} </div>
+      <div class="col-md-2"> <a href="{% url 'remove' order_id item.id 5 %}">
+          remove
+        </a></div> 
           </div> 
       {% endfor %}
       
@@ -100,11 +115,14 @@
       {% for item in dinner_platter %}
       
           <div class = "row">
-		  <div class="col-md-3">  {{ item.name }} </div>
+		  <div class="col-md-2">  {{ item.name }} </div>
 		  {% if  item.size %} <div class="col-md-3"> Large </div>
-		  {% else %} <div class="col-md-3"> Small </div>
+		  {% else %} <div class="col-md-2"> Small </div>
 		  {% endif %}
-		  <div class="col-md-3">  {{ item.price}} </div>
+		  <div class="col-md-2">  {{ item.price}} </div>
+      <div class="col-md-2"> <a href="{% url 'remove' order_id item.id 6 %}">
+          remove
+        </a></div> 
           </div> 
       {% endfor %}
       

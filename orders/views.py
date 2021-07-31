@@ -127,30 +127,57 @@ be sent"})
     return render( request , "orders/login.html" , {"message": "Order Placed"}  )
 
 # Remove item from order
-def remove(request , order_id):
+def remove(request , order_id, item_id, type_id):
     if not request.user.is_authenticated:
         return render(request, "orders/logininsert.html", {"message": "Please Login"})
     order = Order.objects.get(pk = order_id)
-    #confirmed = Confirmed_Order( order = order )
+    rem = None
+    if type_id == 1:
+        rem = order.regular_dish.get(id = item_id)
+        order.price -= rem.price()
+        for topping in rem.toppings.all():
+            rem.toppings.remove(topping)
+            topping.delete()
+        order.regular_dish.remove(rem)
+        rem.delete()
+    if type_id == 2:
+        rem = order.sicilian_dish.get(id = item_id)
+        order.price -= rem.price()
+        for topping in rem.toppings.all():
+            rem.toppings.remove(topping)
+            topping.delete()
+        order.sicilian_dish.remove(rem)
+        rem.delete()
+    if type_id == 3:
+        rem = order.subs0_dish.get(id = item_id)
+        order.price -= rem.price()
+        order.subs0_dish.remove(rem)
+        rem.delete()
+    if type_id == 4:
+        rem = order.pasta_dish.get(id = item_id)
+        order.price -= rem.SmallPrice
+        order.pasta_dish.remove(rem)
+        rem.delete()
+    if type_id == 5:
+        rem = order.salad_dish.get(id = item_id)
+        order.price -= rem.SmallPrice
+        order.salad_dish.remove(rem)
+        rem.delete()
+    if type_id == 6:
+        rem = order.dinnerplatter_dish.get(id = item_id)
+        order.price -= rem.price()
+        order.dinnerplatter_dish.remove(rem)
+        rem.delete()
     order.save()
-    logout(request)
-    try:
-        email(order.user.email,order.user.first_name,order.price)
-    except Exception as e:
-        print(e)
-        return render( request, "orders/login.html" , {"message": "Order \
-Placed, Mail \
-Confirmation could not \
-be sent"})
-    return render( request , "orders/login.html" , {"message": "Order Placed"}  )
+    return HttpResponseRedirect(reverse("index", args=(order.id,)))
 
 # Creates new objects
 def login_view(request):
     if request.method == 'GET' and not request.user.is_authenticated:
-        return render(request, "orders/logininsert.html") 
+        return render(request, "orders/logininsert.html")
     elif request.method == 'GET':
         order = Order.objects.filter( user = request.user ).last()
-        return index(request, order.id) 
+        return index(request, order.id)
     username = request.POST["username"]
     password = request.POST["password"]
 # Creates new objects

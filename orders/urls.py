@@ -16,4 +16,5 @@ urlpatterns = [
     path("<int:order_id>/view", views.view, name="view"),
     path("", views.welcome, name="welcome"),
     path("confirmed_orders", views.confirmed_orders, name="confirmed_orders"),
+    path("<int:order_id>/<int:item_id>/<int:type_id>/remove", views.remove, name="remove"),
 ]
